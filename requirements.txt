@@ -1,0 +1,13 @@
+# Isolated requirements.txt for N-Queens Benchmark Framework
+python-sat
+ortools
+pandas
+matplotlib
+seaborn
+numpy
+pyyaml
+highspy
+mip
+pulp
+minizinc
+pyscipopt

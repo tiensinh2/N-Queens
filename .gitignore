@@ -1,0 +1,37 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python compiled files
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Testing
+.pytest_cache/
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+
+# Local agent metadata
+.bob/
+
+# System and temporary files
+debug_*.txt
+*.log
+Thumbs.db
+Desktop.ini
+
+# LaTeX compilation temporaries
+*.aux
+*.toc
+*.pdfsync
+*.synctex.gz
+*.out
+*.blg
+*.bbl
