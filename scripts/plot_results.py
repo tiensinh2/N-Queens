@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import cnsplots as cns
 
 def generate_plots():
     csv_path = os.path.join("..", "results", "benchmark_data.csv")
@@ -14,11 +15,10 @@ def generate_plots():
             return
         
     print("=========================================================")
-    print(" VISUALIZING EXPERIMENTAL RESULTS: PLOTTING CHARTS       ")
+    print(" VISUALIZING EXPERIMENTAL RESULTS VIA CNSPLOTS           ")
     print("=========================================================")
     
     df = pd.read_csv(csv_path)
-    sns.set_theme(style="whitegrid")
     
     # Lọc các bản ghi chạy thành công (Status = 'OPT' hoặc 'FEAS')
     df_opt = df[df["Status"].isin(["OPT", "FEAS"])].copy()
@@ -26,8 +26,11 @@ def generate_plots():
     # 1. CHART 1: SAT Encodings Solving Time Comparison
     sat_df = df_opt[df_opt["Paradigm"] == "SAT"].copy()
     if not sat_df.empty:
-        plt.figure(figsize=(10, 6))
+        # Sử dụng cnsplots canvas (kích thước tối ưu cho journal 300x200 pt)
+        cns.figure(300, 200)
+        ax = plt.gca()
         sns.lineplot(
+            ax=ax,
             data=sat_df,
             x="N",
             y="Solving_Time",
@@ -35,24 +38,26 @@ def generate_plots():
             style="Encoding",
             markers=True,
             dashes=False,
-            linewidth=2.0
+            linewidth=1.8
         )
-        plt.yscale("log")
-        plt.title("SAT Encodings Comparison: Solving Time vs. Board Size N (Glucose3)", fontsize=13, fontweight='bold', pad=12)
-        plt.xlabel("Board Size (N x N)", fontsize=11)
-        plt.ylabel("Solving Time (seconds) - Log Scale", fontsize=11)
-        plt.legend(title="AMO Encoding", frameon=True)
+        ax.set_yscale("log")
+        ax.set_title("SAT Encodings Comparison: Solving Time vs. Board Size N", fontsize=11, fontweight='bold', pad=10)
+        ax.set_xlabel("Board Size (N x N)", fontsize=9)
+        ax.set_ylabel("Solving Time (seconds) - Log Scale", fontsize=9)
+        ax.legend(title="AMO Encoding", frameon=False, loc="best")
         plt.tight_layout()
         
         plot_path = os.path.join(results_dir, "sat_encodings_time_comparison.png")
-        plt.savefig(plot_path, dpi=300)
+        cns.save(plot_path)
         plt.close()
-        print(f" -> Exported SAT Encodings Time Comparison plot to: {plot_path}")
+        print(f" -> Exported [CNSPlots] SAT Encodings Time Comparison to: {plot_path}")
 
     # 2. CHART 2: SAT Encodings Clause Sizes (Number of Clauses vs N)
     if not sat_df.empty:
-        plt.figure(figsize=(10, 6))
+        cns.figure(300, 200)
+        ax = plt.gca()
         sns.lineplot(
+            ax=ax,
             data=sat_df,
             x="N",
             y="Clauses",
@@ -60,19 +65,19 @@ def generate_plots():
             style="Encoding",
             markers=True,
             dashes=False,
-            linewidth=2.0
+            linewidth=1.8
         )
-        plt.yscale("log")
-        plt.title("SAT Encodings Clause Counts vs. Board Size N", fontsize=13, fontweight='bold', pad=12)
-        plt.xlabel("Board Size (N x N)", fontsize=11)
-        plt.ylabel("Number of CNF Clauses - Log Scale", fontsize=11)
-        plt.legend(title="AMO Encoding", frameon=True)
+        ax.set_yscale("log")
+        ax.set_title("SAT Encodings Clause Counts vs. Board Size N", fontsize=11, fontweight='bold', pad=10)
+        ax.set_xlabel("Board Size (N x N)", fontsize=9)
+        ax.set_ylabel("Number of CNF Clauses - Log Scale", fontsize=9)
+        ax.legend(title="AMO Encoding", frameon=False, loc="best")
         plt.tight_layout()
         
         plot_path = os.path.join(results_dir, "sat_clauses_count_comparison.png")
-        plt.savefig(plot_path, dpi=300)
+        cns.save(plot_path)
         plt.close()
-        print(f" -> Exported SAT Clauses Count Comparison plot to: {plot_path}")
+        print(f" -> Exported [CNSPlots] SAT Clauses Count Comparison to: {plot_path}")
 
     # 3. CHART 3: Cross-Paradigm Solving Time (Best SAT vs CP-SAT vs ILP CBC)
     best_sat = df_opt[(df_opt["Paradigm"] == "SAT") & (df_opt["Encoding"] == "seqcounter")].copy()
@@ -86,8 +91,10 @@ def generate_plots():
     cross_df = pd.concat([best_sat, others], ignore_index=True)
     
     if not cross_df.empty:
-        plt.figure(figsize=(10, 6))
+        cns.figure(300, 200)
+        ax = plt.gca()
         sns.lineplot(
+            ax=ax,
             data=cross_df,
             x="N",
             y="Solving_Time",
@@ -95,26 +102,28 @@ def generate_plots():
             style="Solver_Label",
             markers=True,
             dashes=False,
-            linewidth=2.0
+            linewidth=1.8
         )
-        plt.yscale("log")
-        plt.title("Cross-Paradigm Comparison: Solving Time vs. Board Size N", fontsize=13, fontweight='bold', pad=12)
-        plt.xlabel("Board Size (N x N)", fontsize=11)
-        plt.ylabel("Solving Time (seconds) - Log Scale", fontsize=11)
-        plt.legend(title="Solver Configuration", frameon=True)
+        ax.set_yscale("log")
+        ax.set_title("Cross-Paradigm Comparison: Solving Time vs. Board Size N", fontsize=11, fontweight='bold', pad=10)
+        ax.set_xlabel("Board Size (N x N)", fontsize=9)
+        ax.set_ylabel("Solving Time (seconds) - Log Scale", fontsize=9)
+        ax.legend(title="Solver Configuration", frameon=False, loc="best")
         plt.tight_layout()
         
         plot_path = os.path.join(results_dir, "cross_paradigm_time_comparison.png")
-        plt.savefig(plot_path, dpi=300)
+        cns.save(plot_path)
         plt.close()
-        print(f" -> Exported Cross-Paradigm Solving Time plot to: {plot_path}")
+        print(f" -> Exported [CNSPlots] Cross-Paradigm Solving Time to: {plot_path}")
 
     # 4. CHART 4: Peak Memory Usage Comparison
     if not cross_df.empty:
         cross_df["Peak_Memory_MB"] = cross_df["Peak_Memory_Bytes"] / (1024 * 1024)
         
-        plt.figure(figsize=(10, 6))
+        cns.figure(300, 200)
+        ax = plt.gca()
         sns.lineplot(
+            ax=ax,
             data=cross_df,
             x="N",
             y="Peak_Memory_MB",
@@ -122,21 +131,21 @@ def generate_plots():
             style="Solver_Label",
             markers=True,
             dashes=False,
-            linewidth=2.0
+            linewidth=1.8
         )
-        plt.title("Peak Memory Consumption vs. Board Size N", fontsize=13, fontweight='bold', pad=12)
-        plt.xlabel("Board Size (N x N)", fontsize=11)
-        plt.ylabel("Peak Traced Memory (MB)", fontsize=11)
-        plt.legend(title="Solver Configuration", frameon=True)
+        ax.set_title("Peak Memory Consumption vs. Board Size N", fontsize=11, fontweight='bold', pad=10)
+        ax.set_xlabel("Board Size (N x N)", fontsize=9)
+        ax.set_ylabel("Peak Traced Memory (MB)", fontsize=9)
+        ax.legend(title="Solver Configuration", frameon=False, loc="best")
         plt.tight_layout()
         
         plot_path = os.path.join(results_dir, "peak_memory_comparison.png")
-        plt.savefig(plot_path, dpi=300)
+        cns.save(plot_path)
         plt.close()
-        print(f" -> Exported Peak Memory Comparison plot to: {plot_path}")
+        print(f" -> Exported [CNSPlots] Peak Memory Comparison to: {plot_path}")
 
     print("=========================================================")
-    print(" PLOTTING COMPLETED! All charts have been saved successfully.")
+    print(" PLOTTING COMPLETED! CNSPlots updated all graphics.")
     print("=========================================================")
 
 if __name__ == "__main__":
