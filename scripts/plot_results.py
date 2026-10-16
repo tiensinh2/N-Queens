@@ -270,8 +270,8 @@ def plot_line_comparison(
     else:
         plot_palette = palette
 
-    # Create CNSPlots figure
-    cns.figure(300, 200, color_cycle="ECharts")
+    # Create CNSPlots figure - Tăng kích thước canvas rộng rãi hơn để giản đều dữ liệu
+    cns.figure(350, 220, color_cycle="ECharts")
     ax = plt.gca()
     
     # Ép buộc đồng bộ màu trắng đặc 100% cho hình vẽ và khung trục tọa độ
@@ -289,10 +289,10 @@ def plot_line_comparison(
         palette=plot_palette,
         markers=True,
         dashes=False,
-        linewidth=2.0,
-        markersize=5.5,
+        linewidth=1.3,      # Đường vẽ mỏng tinh tế, thanh thoát tránh cảm giác díu mắt
+        markersize=4.5,     # Kích thước điểm đánh dấu gọn gàng, sắc nét
         markeredgecolor="#FFFFFF",
-        markeredgewidth=0.8,
+        markeredgewidth=0.7,
         estimator=None,
         errorbar=None,
         sort=True,
