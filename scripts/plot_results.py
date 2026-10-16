@@ -187,7 +187,10 @@ def configure_legend(ax, title, outside=False):
             loc="upper left",
             bbox_to_anchor=(1.02, 1),
             borderaxespad=0,
-            frameon=False,
+            frameon=True,
+            facecolor="#FFFFFF",
+            edgecolor="#E1E5EB",
+            framealpha=1.0,  # Màu nền trắng đặc 100% không trong suốt
             fontsize=8,
             title_fontsize=9,
             handlelength=2.0,
@@ -200,7 +203,7 @@ def configure_legend(ax, title, outside=False):
             frameon=True,
             facecolor="#FFFFFF",
             edgecolor="#E1E5EB",
-            framealpha=0.95,
+            framealpha=1.0,  # Màu nền trắng đặc 100% không trong suốt
             fontsize=8,
             title_fontsize=9,
             borderpad=0.7,
@@ -270,6 +273,11 @@ def plot_line_comparison(
     # Create CNSPlots figure
     cns.figure(300, 200, color_cycle="ECharts")
     ax = plt.gca()
+    
+    # Ép buộc đồng bộ màu trắng đặc 100% cho hình vẽ và khung trục tọa độ
+    fig = plt.gcf()
+    fig.patch.set_facecolor("#FFFFFF")
+    ax.set_facecolor("#FFFFFF")
 
     sns.lineplot(
         ax=ax,
@@ -306,12 +314,19 @@ def plot_line_comparison(
 
     # Reserve space for an external legend
     if legend_outside:
-        plt.tight_layout(rect=[0, 0, 0.78, 1])
+        plt.tight_layout(rect=(0, 0, 0.78, 1))
     else:
         plt.tight_layout()
 
-    # Save through CNSPlots
-    cns.save(output_path)
+    # Lưu chất lượng cao với phông nền trắng đặc tuyệt đối, tránh hiện tượng bị cắt legend
+    plt.savefig(
+        output_path,
+        dpi=300,
+        facecolor="#FFFFFF",
+        edgecolor="none",
+        transparent=False,
+        bbox_inches="tight"
+    )
     plt.close()
 
     print(f" -> Exported: {output_path}")
