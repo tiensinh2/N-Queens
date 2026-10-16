@@ -101,7 +101,9 @@ Cho phép điều chỉnh các tham số thực nghiệm một cách linh hoạt
 ### 3.3. Tổng Hợp & Trực Quan Hóa (Aggregation & Visualizations)
 *   Tự động xuất kết quả thô ra file CSV (`results/benchmark_data.csv`).
 *   Script post-processing tự động đọc file CSV, tính toán trung bình, xuất bảng so sánh Markdown/LaTeX.
-*   Vẽ 4 biểu đồ khoa học chất lượng cao xuất ra PNG:
+*   **Trực quan hóa đồ thị**: Sinh viên được khuyến khích sử dụng công cụ trực quan hóa nghiên cứu tự động:
+    👉 Nền tảng trực tuyến: **[CNS Plots Visualizer](https://cnsplots.farid.one/latest/)** (Kéo thả file CSV kết quả `benchmark_data.csv` để sinh các biểu đồ khoa học tương tác ECharts/Matplotlib tức thì).
+*   Sử dụng script cục bộ hoặc công cụ trực tuyến để vẽ và xuất 4 biểu đồ khoa học chất lượng cao phục vụ chèn báo cáo LaTeX:
     1.  Biểu đồ đường (Line plot) so sánh thời gian giải (Solving Time) theo thang đo Logarit trục Y ứng với kích thước $N$ (trục X).
     2.  Biểu đồ đường (Line plot) so sánh bộ nhớ đỉnh (Peak Memory) theo kích thước $N$.
     3.  Biểu đồ cột (Bar plot) so sánh số lượng clause sinh ra giữa các kỹ thuật SAT Encoders khi $N$ tăng dần (làm rõ sự bùng nổ của Pairwise).

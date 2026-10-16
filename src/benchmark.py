@@ -173,6 +173,46 @@ def run_synchronized_benchmark():
         # THỬ NGHIỆM CP & MIP SOLVERS
         # -------------------------------------------------------------
         for paradigm, name, s_type in other_solvers:
+            # Bỏ qua MIP solvers cho N >= 256 để tránh bế tắc và tốn thời gian
+            if n >= 256 and paradigm == "MIP":
+                print(f"  [{paradigm}] Skipping {name} for N >= 256 to save execution time...")
+                records.append({
+                    "N": n,
+                    "Paradigm": paradigm,
+                    "Solver_Name": name,
+                    "Encoding": "N/A",
+                    "Success": False,
+                    "Model_Construction_Time": 0.0,
+                    "Solving_Time": 0.0,
+                    "Variables": 0,
+                    "Aux_Variables": 0,
+                    "Clauses": None,
+                    "Peak_Memory_Bytes": 0.0,
+                    "Status": "SKIPPED_TIMEOUT_PREVENTION",
+                    "Solution_Validity": "N/A"
+                })
+                continue
+
+            # Bỏ qua CP solvers cho N >= 512 để tránh bế tắc ở các cỡ bàn cờ khổng lồ
+            if n >= 512 and paradigm in ["CP-SAT", "CPLEX_CP"]:
+                print(f"  [{paradigm}] Skipping {name} for N >= 512 to save execution time...")
+                records.append({
+                    "N": n,
+                    "Paradigm": paradigm,
+                    "Solver_Name": name,
+                    "Encoding": "N/A",
+                    "Success": False,
+                    "Model_Construction_Time": 0.0,
+                    "Solving_Time": 0.0,
+                    "Variables": None,
+                    "Aux_Variables": None,
+                    "Clauses": None,
+                    "Peak_Memory_Bytes": 0.0,
+                    "Status": "SKIPPED_TIMEOUT_PREVENTION",
+                    "Solution_Validity": "N/A"
+                })
+                continue
+
             print(f"  [{paradigm}] Solver: {name}...")
             
             model_times = []
