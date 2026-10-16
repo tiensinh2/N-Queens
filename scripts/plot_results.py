@@ -20,6 +20,13 @@ def generate_plots():
     
     df = pd.read_csv(csv_path)
     
+    # Ép buộc cấu hình phông nền sáng, đồng bộ màu trắng tinh khiết (không transparent) cho mọi đồ thị
+    # Điều này giúp ảnh luôn sáng rõ và đồng bộ trên mọi giao diện (kể cả khi xem ở Dark Mode của VS Code/GitHub)
+    plt.rcParams['figure.facecolor'] = 'white'
+    plt.rcParams['axes.facecolor'] = 'white'
+    plt.rcParams['savefig.facecolor'] = 'white'
+    plt.rcParams['savefig.transparent'] = False
+    
     # Lọc các bản ghi chạy thành công (Status = 'OPT' hoặc 'FEAS')
     df_opt = df[df["Status"].isin(["OPT", "FEAS"])].copy()
     
