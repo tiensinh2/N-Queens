@@ -73,24 +73,15 @@ python benchmark.py
 Kết quả đo lường thời gian chạy, số lượng biến và mệnh đề của từng phương pháp sẽ tự động được xuất ra tệp tin CSV tại [`src/results/benchmark_data.csv`](src/results/benchmark_data.csv).
 
 ### Bước 2: Vẽ biểu đồ trực quan hóa dữ liệu
-Sau khi có tệp CSV kết quả thực nghiệm tại `results/benchmark_data.csv`, bạn có thể trực quan hóa dữ liệu bằng hai cách chuyên nghiệp sau:
+Sau khi có tệp CSV kết quả thực nghiệm, hãy chạy file `plot_results.py` từ thư mục `src`:
 
-#### Cách 1: Sử dụng công cụ trực quan hóa trực tuyến (Khuyến nghị)
-Truy cập trực tiếp vào nền tảng vẽ biểu đồ tự động:
-👉 **[CNS Plots Visualizer](https://cnsplots.farid.one/latest/)**
-
-*Hướng dẫn*: Bạn chỉ cần kéo và thả (hoặc upload) tệp dữ liệu thực nghiệm **`results/benchmark_data.csv`** lên giao diện web. Hệ thống trực tuyến sẽ tự động phân tích cấu trúc cột, phân nhóm dữ liệu và tạo ra các đồ thị tương tác (ECharts/Matplotlib) sắc nét chuẩn khoa học cực kỳ nhanh chóng và chuyên nghiệp.
-
-#### Cách 2: Sử dụng Script Python cục bộ (Offline)
-Chạy script vẽ đồ thị trực tiếp từ thư mục `scripts` bằng môi trường ảo:
 ```bash
-.venv\Scripts\python.exe scripts/plot_results.py
+python plot_results.py
 ```
-Hệ thống sẽ tự động phân tích tệp CSV cục bộ và xuất 4 tệp biểu đồ dạng ảnh chất lượng cao vào thư mục **`results/`**:
-1.  **`results/cross_paradigm_time_comparison.png`**: So sánh thời gian giải quyết (Solving CPU Time) ở thang đo Logarithmic.
-2.  **`results/peak_memory_comparison.png`**: So sánh lượng RAM tiêu thụ đỉnh điểm của các solver.
-3.  **`results/sat_clauses_count_comparison.png`**: So sánh số lượng mệnh đề CNF của 6 SAT Encoders.
-4.  **`results/sat_encodings_time_comparison.png`**: So sánh tốc độ thực tế của các SAT Encoders.
+
+Lúc này, hệ thống sẽ tự động phân tích dữ liệu CSV và xuất ra hai biểu đồ dạng ảnh sắc nét chuẩn khoa học:
+1.  **`src/results/cross_solver_comparison.png`**: So sánh thời gian giải quyết (Solving CPU Time) theo kích cỡ $N$ giữa các Solver ở thang đo Logarithmic.
+2.  **`src/results/sat_clauses_comparison.png`**: So sánh số lượng mệnh đề CNF (Clauses) sinh ra bởi các kỹ thuật mã hóa SAT khác nhau (Pairwise vs. Binary vs. Sequential Counter).
 
 ---
 
