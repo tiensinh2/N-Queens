@@ -15,7 +15,7 @@ def generate_plots():
             return
         
     print("=========================================================")
-    print(" VISUALIZING EXPERIMENTAL RESULTS VIA CNSPLOTS           ")
+    print(" VISUALIZING EXPERIMENTAL RESULTS VIA CNSPLOTS (BRIGHT)  ")
     print("=========================================================")
     
     df = pd.read_csv(csv_path)
@@ -33,8 +33,8 @@ def generate_plots():
     # 1. CHART 1: SAT Encodings Solving Time Comparison
     sat_df = df_opt[df_opt["Paradigm"] == "SAT"].copy()
     if not sat_df.empty:
-        # Sử dụng cnsplots canvas (kích thước tối ưu cho journal 300x200 pt)
-        cns.figure(300, 200)
+        # Sử dụng cnsplots canvas với bảng màu sáng ECharts cực kỳ nổi bật
+        cns.figure(300, 200, color_cycle='ECharts')
         ax = plt.gca()
         sns.lineplot(
             ax=ax,
@@ -45,13 +45,15 @@ def generate_plots():
             style="Encoding",
             markers=True,
             dashes=False,
-            linewidth=1.8
+            linewidth=2.5,
+            markersize=7
         )
         ax.set_yscale("log")
         ax.set_title("SAT Encodings Comparison: Solving Time vs. Board Size N", fontsize=11, fontweight='bold', pad=10)
-        ax.set_xlabel("Board Size (N x N)", fontsize=9)
-        ax.set_ylabel("Solving Time (seconds) - Log Scale", fontsize=9)
-        ax.legend(title="AMO Encoding", frameon=False, loc="best")
+        ax.set_xlabel("Board Size (N x N)", fontsize=9, fontweight='bold')
+        ax.set_ylabel("Solving Time (seconds) - Log Scale", fontsize=9, fontweight='bold')
+        ax.legend(title="AMO Encoding", frameon=True, facecolor='white', edgecolor='#dddddd', loc="best")
+        ax.grid(True, which='both', linestyle='--', linewidth=0.5, color='#e0e0e0')
         plt.tight_layout()
         
         plot_path = os.path.join(results_dir, "sat_encodings_time_comparison.png")
@@ -61,7 +63,7 @@ def generate_plots():
 
     # 2. CHART 2: SAT Encodings Clause Sizes (Number of Clauses vs N)
     if not sat_df.empty:
-        cns.figure(300, 200)
+        cns.figure(300, 200, color_cycle='ECharts')
         ax = plt.gca()
         sns.lineplot(
             ax=ax,
@@ -72,13 +74,15 @@ def generate_plots():
             style="Encoding",
             markers=True,
             dashes=False,
-            linewidth=1.8
+            linewidth=2.5,
+            markersize=7
         )
         ax.set_yscale("log")
         ax.set_title("SAT Encodings Clause Counts vs. Board Size N", fontsize=11, fontweight='bold', pad=10)
-        ax.set_xlabel("Board Size (N x N)", fontsize=9)
-        ax.set_ylabel("Number of CNF Clauses - Log Scale", fontsize=9)
-        ax.legend(title="AMO Encoding", frameon=False, loc="best")
+        ax.set_xlabel("Board Size (N x N)", fontsize=9, fontweight='bold')
+        ax.set_ylabel("Number of CNF Clauses - Log Scale", fontsize=9, fontweight='bold')
+        ax.legend(title="AMO Encoding", frameon=True, facecolor='white', edgecolor='#dddddd', loc="best")
+        ax.grid(True, which='both', linestyle='--', linewidth=0.5, color='#e0e0e0')
         plt.tight_layout()
         
         plot_path = os.path.join(results_dir, "sat_clauses_count_comparison.png")
@@ -98,7 +102,7 @@ def generate_plots():
     cross_df = pd.concat([best_sat, others], ignore_index=True)
     
     if not cross_df.empty:
-        cns.figure(300, 200)
+        cns.figure(300, 200, color_cycle='ECharts')
         ax = plt.gca()
         sns.lineplot(
             ax=ax,
@@ -109,13 +113,15 @@ def generate_plots():
             style="Solver_Label",
             markers=True,
             dashes=False,
-            linewidth=1.8
+            linewidth=2.5,
+            markersize=7
         )
         ax.set_yscale("log")
         ax.set_title("Cross-Paradigm Comparison: Solving Time vs. Board Size N", fontsize=11, fontweight='bold', pad=10)
-        ax.set_xlabel("Board Size (N x N)", fontsize=9)
-        ax.set_ylabel("Solving Time (seconds) - Log Scale", fontsize=9)
-        ax.legend(title="Solver Configuration", frameon=False, loc="best")
+        ax.set_xlabel("Board Size (N x N)", fontsize=9, fontweight='bold')
+        ax.set_ylabel("Solving Time (seconds) - Log Scale", fontsize=9, fontweight='bold')
+        ax.legend(title="Solver Configuration", frameon=True, facecolor='white', edgecolor='#dddddd', loc="best")
+        ax.grid(True, which='both', linestyle='--', linewidth=0.5, color='#e0e0e0')
         plt.tight_layout()
         
         plot_path = os.path.join(results_dir, "cross_paradigm_time_comparison.png")
@@ -127,7 +133,7 @@ def generate_plots():
     if not cross_df.empty:
         cross_df["Peak_Memory_MB"] = cross_df["Peak_Memory_Bytes"] / (1024 * 1024)
         
-        cns.figure(300, 200)
+        cns.figure(300, 200, color_cycle='ECharts')
         ax = plt.gca()
         sns.lineplot(
             ax=ax,
@@ -138,12 +144,14 @@ def generate_plots():
             style="Solver_Label",
             markers=True,
             dashes=False,
-            linewidth=1.8
+            linewidth=2.5,
+            markersize=7
         )
         ax.set_title("Peak Memory Consumption vs. Board Size N", fontsize=11, fontweight='bold', pad=10)
-        ax.set_xlabel("Board Size (N x N)", fontsize=9)
-        ax.set_ylabel("Peak Traced Memory (MB)", fontsize=9)
-        ax.legend(title="Solver Configuration", frameon=False, loc="best")
+        ax.set_xlabel("Board Size (N x N)", fontsize=9, fontweight='bold')
+        ax.set_ylabel("Peak Traced Memory (MB)", fontsize=9, fontweight='bold')
+        ax.legend(title="Solver Configuration", frameon=True, facecolor='white', edgecolor='#dddddd', loc="best")
+        ax.grid(True, which='both', linestyle='--', linewidth=0.5, color='#e0e0e0')
         plt.tight_layout()
         
         plot_path = os.path.join(results_dir, "peak_memory_comparison.png")
