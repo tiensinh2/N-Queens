@@ -1,6 +1,6 @@
 # N-Queens Benchmark Configuration
-sizes: [4, 8, 12, 16, 32, 64, 128, 256, 512, 1000] # Kích thước thử nghiệm mở rộng (chạy nhanh đạt đến 1000)
-time_limit_seconds: 120 # Đặt giới hạn thời gian chạy thử nghiệm 2 phút cho mỗi solver chậm
+sizes: [4, 8, 12, 16, 32, 64, 128] # Kích thước giới hạn tối đa N = 128 để tránh chạy quá lâu
+time_limit_seconds: 60 # Giới hạn thời gian chạy nhanh 60 giây cho mỗi lượt
 memory_limit_mb: 4096
 repetitions: 3 # Số lần chạy lặp lại để lấy trung bình thống kê
 seed: 42
